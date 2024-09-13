@@ -1,0 +1,150 @@
+1. Query Using Group By Function
+For grouping the items by veg and non veg to see the exact data
+SELECT is_veg, count(name) FROM `swiggysqlpractice.fooditems.items`
+group by is_veg
+
+
+2. Query to showcase Count Of Distinct Function
+To count the number of different dishes ordered
+SELECT count(distinct name) FROM `swiggysqlpractice.fooditems.items`
+
+
+3. Query Using Distinct Function
+To see all the different types of dishes alone ordered
+SELECT distinct name FROM `swiggysqlpractice.fooditems.items`
+4. Query Using Where Function to Find data based on specific column
+To select column based on a specific criteria
+SELECT *FROM `swiggysqlpractice.fooditems.items`
+
+where is_veg=2
+
+5. Query showing calculation of distinct numbers 
+To count number of distinct orders placed 
+SELECT count (distinct order_id) FROM `swiggysqlpractice.fooditems.items`
+
+
+6. Query showing Usage of Specific Word Finding Function
+When you want line items containing the word chicken
+SELECT *FROM `swiggysqlpractice.fooditems.items`
+
+where name like '%Chicken%'
+7. Query showing To Count Function and also group function
+When you want to know HOW many times EACH ITEM was ordered
+SELECT name, count(*) FROM `swiggysqlpractice.fooditems.items`
+group by name
+Order by count(*) desc
+
+SHEET 2 - Food Item Orders All Queries
+
+
+8. Query to understand different modes of a criteria using Distinct Function
+1. To See the different types of rain_modes
+SELECT distinct rain_mode FROM `swiggysqlpractice.fooditems.orders`
+9. Query to See Different Names of Places Using Count & Distinct Function
+2. To see the number of different unique restaurants we've ordered from
+SELECT count(distinct restaurant_name) FROM `swiggysqlpractice.fooditems.orders`
+To see which was our most favourite restaurant and count that
+3. SELECT restaurant_name, count(*) FROM `swiggysqlpractice.fooditems.orders`
+4. group by restaurant_name
+5. Order by count(*) desc
+
+
+
+10. Query Using Group, Format Date To Split Summation by Year & Using Order Function
+
+
+4. To find out how many times order has been made at a restaurant split month wise
+SELECT format_date('%Y-%m', order_time), count(order_id) FROM `swiggysqlpractice.fooditems.orders`
+group by format_date('%Y-%m', order_time)
+order by count(order_id) desc
+
+
+11. Query Using Max Function 
+
+5. To find out when the latest order was placed 
+SELECT max(order_time) FROM `swiggysqlpractice.fooditems.orders`
+
+12. Format Date, Sum, Group by and Order By Query
+
+
+6. To find out which month we spent the most on food (split month wise)
+7. SELECT format_date('%Y-%m', order_time), sum(order_total) FROM `swiggysqlpractice.fooditems.orders`
+8. group by format_date('%Y-%m', order_time)
+9. order by sum(order_total) desc
+
+
+
+
+
+13. Query to Calculate a Specific Value
+
+8. To find out the average order value (basically average order value per order)
+SELECT sum(order_total)/count(distinct order_id) FROM `swiggysqlpractice.fooditems.orders`
+
+
+14. Query Using Format Date, Sum & Group by to understand Yearly Expenditure
+9. To find out total revenue spent on swiggy per year
+SELECT format_date('%Y', order_time), sum(order_total) FROM `swiggysqlpractice.fooditems.orders`
+
+group by format_date('%Y', order_time) 
+
+
+
+
+
+
+
+
+
+
+
+15. Use final window function Query 
+
+with final as (
+SELECT format_date('%Y', order_time) as `Year`, sum(order_total) as `Revenue` FROM `swiggysqlpractice.fooditems.orders`
+
+group by format_date('%Y', order_time))
+
+select Year, Revenue, lag(Revenue) over (order by Year) as `PreviousYear`
+from final
+Output below
+
+
+
+
+
+
+
+16. To find out rankings of the cost spent yearwise Using Rank Query
+17. with final as (
+18. SELECT format_date('%Y', order_time) as `Year`, sum(order_total) as `Revenue` FROM `swiggysqlpractice.fooditems.orders`
+19. 
+20. group by format_date('%Y', order_time))
+21. 
+22. select Year, Revenue, 
+23. rank() over (order by Revenue) as `Ranking`
+24. from final
+
+
+
+
+
+
+
+17. Group by Function Query 
+How much money was during each of the rain_modes in swiggy
+SELECT rain_mode, sum(order_total) FROM `swiggysqlpractice.fooditems.orders`
+
+group by rain_mode
+
+
+
+
+18. Query using Inner Join Function
+
+Joining table items and table orders 
+SELECT a.name,b.restaurant_name, b.order_id, b.order_time FROM `swiggysqlpractice.fooditems.items` as a
+join `swiggysqlpractice.fooditems.orders` as b
+on a.order_id=b.order_id
+
+
